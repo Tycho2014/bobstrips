@@ -12,10 +12,10 @@
       background: #f9f9f9;
     }
     h2 {
-      margin-bottom: 10px;
+      margin: 15px 0 10px;
     }
     .thumbnail {
-      width: 120px;   /* kleine preview */
+      width: 120px;
       cursor: pointer;
       border-radius: 10px;
       box-shadow: 0 0 5px rgba(0,0,0,0.3);
@@ -24,7 +24,6 @@
     .thumbnail:hover {
       transform: scale(1.05);
     }
-    /* overlay voor popup */
     .overlay {
       display: none;
       position: fixed;
@@ -45,7 +44,7 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.5);
     }
     .popup img {
-      max-width: 80vw;   /* afbeelding schaalt mee met scherm */
+      max-width: 80vw;
       max-height: 70vh;
       border-radius: 10px;
     }
@@ -80,12 +79,20 @@
   </style>
 </head>
 <body>
-  <h2>Bob de Schildpad</h2>
-  <img src="1.png" alt="Strip 1" class="thumbnail" onclick="openPopup()">
+  <h1>Bob de Schildpad</h1>
 
+  <!-- Strip 1 -->
+  <h2>Strip 1</h2>
+  <img src="1.png" alt="Strip 1" class="thumbnail" onclick="openPopup(1)">
+
+  <!-- Strip 2 -->
+  <h2>Strip 2</h2>
+  <img src="4.png" alt="Strip 2" class="thumbnail" onclick="openPopup(2)">
+
+  <!-- Popup viewer -->
   <div class="overlay" id="overlay">
     <div class="popup">
-      <img id="popupImage" src="1.png" alt="Strip">
+      <img id="popupImage" src="" alt="Strip">
       <div>
         <button class="nav-btn" onclick="prev()">←</button>
         <button class="nav-btn" onclick="next()">→</button>
@@ -95,12 +102,19 @@
   </div>
 
   <script>
-    const images = ["1.png", "2.png", "3.png"];
+    // Twee sets strips
+    const strips = {
+      1: ["1.png", "2.png", "3.png"],
+      2: ["4.png", "5.png", "6.png"]
+    };
+
+    let currentStrip = 1;
     let index = 0;
 
-    function openPopup() {
-      document.getElementById("overlay").style.display = "flex";
+    function openPopup(stripNumber) {
+      currentStrip = stripNumber;
       index = 0;
+      document.getElementById("overlay").style.display = "flex";
       updateImage();
     }
 
@@ -109,11 +123,13 @@
     }
 
     function updateImage() {
+      const images = strips[currentStrip];
       document.getElementById("popupImage").src = images[index];
       document.getElementById("closeBtn").style.display = index === images.length - 1 ? "inline-block" : "none";
     }
 
     function next() {
+      const images = strips[currentStrip];
       if (index < images.length - 1) {
         index++;
         updateImage();
