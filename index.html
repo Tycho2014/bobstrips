@@ -5,63 +5,91 @@
   <title>Bob de Schildpad</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
       text-align: center;
+      margin: 20px;
     }
-    .strip-viewer {
+    .thumbnail {
+      width: 150px;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+    .popup {
       display: none;
-      margin-top: 20px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border: 2px solid #444;
+      border-radius: 15px;
+      padding: 10px;
+      z-index: 1000;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
     }
-    img {
-      max-width: 80%;
-      height: auto;
+    .popup img {
+      max-width: 300px;
+      border-radius: 10px;
     }
-    .nav-buttons {
+    .nav {
       margin-top: 10px;
+    }
+    .nav button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 18px;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+    .close-btn {
+      margin-top: 10px;
+      background-color: #f44336;
     }
   </style>
 </head>
 <body>
   <h1>Bob de Schildpad</h1>
   <h2>Strip 1</h2>
-  <a href="#" onclick="openStripViewer(); return false;">
-    <img src="1.png" alt="Strip 1">
-  </a>
+  <img src="1.png" alt="Strip 1" class="thumbnail" onclick="openPopup()">
 
-  <div class="strip-viewer" id="stripViewer">
-    <img id="stripImage" src="1.png" alt="Strip afbeelding">
-    <div class="nav-buttons">
-      <button onclick="prevImage()">Vorige</button>
-      <button onclick="nextImage()">Volgende</button>
-      <button onclick="closeStripViewer()">Sluiten</button>
+  <div class="popup" id="popup">
+    <img id="popupImage" src="1.png" alt="Strip">
+    <div class="nav">
+      <button onclick="prev()">←</button>
+      <button onclick="next()">→</button>
     </div>
+    <button class="nav close-btn" onclick="closePopup()">Sluit</button>
   </div>
 
   <script>
     const images = ["1.png", "2.png", "3.png"];
-    let currentIndex = 0;
+    let index = 0;
 
-    function openStripViewer() {
-      document.getElementById("stripViewer").style.display = "block";
-      currentIndex = 0;
+    function openPopup() {
+      document.getElementById("popup").style.display = "block";
+      index = 0;
       updateImage();
     }
 
-    function closeStripViewer() {
-      document.getElementById("stripViewer").style.display = "none";
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
     }
 
     function updateImage() {
-      document.getElementById("stripImage").src = images[currentIndex];
+      document.getElementById("popupImage").src = images[index];
     }
 
-    function nextImage() {
-      currentIndex = (currentIndex + 1) % images.length;
+    function next() {
+      index = (index + 1) % images.length;
       updateImage();
     }
 
-    function prevImage() {
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
+    function prev() {
+      index = (index - 1 + images.length) % images.length;
       updateImage();
     }
   </script>
