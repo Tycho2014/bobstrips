@@ -39,36 +39,23 @@
       justify-content: center;
       align-items: center;
       z-index: 1000;
+      flex-direction: column;
     }
     .popup {
-      position: relative;
       text-align: center;
+      margin-bottom: 20px;
     }
     .popup img {
       max-width: 90vw;
-      max-height: 90vh;
+      max-height: 80vh;
       border-radius: 10px;
     }
-    .nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 40px;
-      background: none;
-      border: none;
-      color: white;
-      cursor: pointer;
-      padding: 20px;
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
     }
-    .nav-btn:hover {
-      color: #ccc;
-    }
-    #prevBtn { left: 10px; }
-    #nextBtn { right: 10px; }
-    #downloadBtn {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
+    .nav-btn, #downloadBtn {
       font-size: 24px;
       background: #4CAF50;
       color: white;
@@ -76,8 +63,9 @@
       border-radius: 10px;
       padding: 10px 20px;
       cursor: pointer;
+      transition: background 0.2s;
     }
-    #downloadBtn:hover {
+    .nav-btn:hover, #downloadBtn:hover {
       background: #45a049;
     }
   </style>
@@ -88,10 +76,12 @@
 
   <div class="overlay" id="overlay">
     <div class="popup">
-      <button class="nav-btn" id="prevBtn" onclick="prev()">←</button>
       <img id="popupImage" src="" alt="Strip">
-      <button class="nav-btn" id="nextBtn" onclick="next()">→</button>
+    </div>
+    <div class="controls">
+      <button class="nav-btn" onclick="prev()">← Vorige</button>
       <button id="downloadBtn" onclick="downloadImage()">⬇ Download</button>
+      <button class="nav-btn" onclick="next()">Volgende →</button>
     </div>
   </div>
 
