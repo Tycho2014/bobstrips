@@ -11,8 +11,14 @@
       padding: 20px;
       background: #f9f9f9;
     }
-    h2 {
-      margin: 15px 0 10px;
+    h1 {
+      margin-bottom: 20px;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
     }
     .thumbnail {
       width: 120px;
@@ -29,119 +35,125 @@
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.8);
       justify-content: center;
       align-items: center;
       z-index: 1000;
     }
     .popup {
-      background: white;
-      padding: 15px;
-      border-radius: 15px;
+      position: relative;
       text-align: center;
-      max-width: 90%;
-      max-height: 90%;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
     }
     .popup img {
-      max-width: 80vw;
-      max-height: 70vh;
+      max-width: 90vw;
+      max-height: 90vh;
       border-radius: 10px;
     }
     .nav-btn {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 40px;
+      background: none;
       border: none;
-      background-color: #4CAF50;
       color: white;
-      font-size: 22px;
-      margin: 10px;
       cursor: pointer;
-      transition: background 0.2s;
+      padding: 20px;
     }
     .nav-btn:hover {
-      background-color: #45a049;
+      color: #ccc;
     }
-    .close-btn {
-      margin-top: 12px;
-      padding: 8px 20px;
-      border-radius: 20px;
-      background-color: #f44336;
+    #prevBtn { left: 10px; }
+    #nextBtn { right: 10px; }
+    #downloadBtn {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      font-size: 24px;
+      background: #4CAF50;
       color: white;
       border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
       cursor: pointer;
-      font-size: 16px;
     }
-    .close-btn:hover {
-      background-color: #d7382f;
+    #downloadBtn:hover {
+      background: #45a049;
     }
   </style>
 </head>
 <body>
   <h1>Bob de Schildpad</h1>
+  <div class="gallery" id="gallery"></div>
 
-  <!-- Strip 1 -->
-  <h2>Bob de schildpad loopt heeeeeel langzaam</h2>
-  <img src="1.png" alt="Strip 1" class="thumbnail" onclick="openPopup(1)">
-
-  <!-- Strip 2 -->
-  <h2>Bob ontmoet Snelle de Muis</h2>
-  <img src="4.png" alt="Strip 2" class="thumbnail" onclick="openPopup(2)">
-
-  <!-- Popup viewer -->
   <div class="overlay" id="overlay">
     <div class="popup">
+      <button class="nav-btn" id="prevBtn" onclick="prev()">←</button>
       <img id="popupImage" src="" alt="Strip">
-      <div>
-        <button class="nav-btn" onclick="prev()">←</button>
-        <button class="nav-btn" onclick="next()">→</button>
-      </div>
-      <button class="close-btn" id="closeBtn" onclick="closePopup()" style="display:none;">Sluiten</button>
+      <button class="nav-btn" id="nextBtn" onclick="next()">→</button>
+      <button id="downloadBtn" onclick="downloadImage()">⬇ Download</button>
     </div>
   </div>
 
   <script>
-    // Twee sets strips
-    const strips = {
-      1: ["1.png", "2.png", "3.png"],
-      2: ["4.png", "5.png", "6.png"]
-    };
+    let images = [];
+    let currentIndex = 0;
+    const gallery = document.getElementById("gallery");
+    const popupImage = document.getElementById("popupImage");
+    const overlay = document.getElementById("overlay");
 
-    let currentStrip = 1;
-    let index = 0;
+    function loadImages() {
+      let i = images.length + 1;
+      const img = new Image();
+      img.src = `${i}.png`;
+      img.onload = () => {
+        images.push(img.src);
+        const thumb = document.createElement("img");
+        thumb.src = img.src;
+        thumb.className = "thumbnail";
+        thumb.onclick = () => openPopup(images.length - 1);
+        gallery.appendChild(thumb);
+      };
+    }
 
-    function openPopup(stripNumber) {
-      currentStrip = stripNumber;
-      index = 0;
-      document.getElementById("overlay").style.display = "flex";
-      updateImage();
+    function openPopup(index) {
+      currentIndex = index;
+      popupImage.src = images[currentIndex];
+      overlay.style.display = "flex";
     }
 
     function closePopup() {
-      document.getElementById("overlay").style.display = "none";
-    }
-
-    function updateImage() {
-      const images = strips[currentStrip];
-      document.getElementById("popupImage").src = images[index];
-      document.getElementById("closeBtn").style.display = index === images.length - 1 ? "inline-block" : "none";
+      overlay.style.display = "none";
     }
 
     function next() {
-      const images = strips[currentStrip];
-      if (index < images.length - 1) {
-        index++;
-        updateImage();
+      if (currentIndex < images.length - 1) {
+        currentIndex++;
+        popupImage.src = images[currentIndex];
       }
     }
 
     function prev() {
-      if (index > 0) {
-        index--;
-        updateImage();
+      if (currentIndex > 0) {
+        currentIndex--;
+        popupImage.src = images[currentIndex];
       }
     }
+
+    function downloadImage() {
+      const link = document.createElement('a');
+      link.href = images[currentIndex];
+      link.download = `strip-${currentIndex + 1}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    overlay.onclick = (e) => {
+      if (e.target === overlay) closePopup();
+    };
+
+    setInterval(loadImages, 500);
   </script>
 </body>
 </html>
