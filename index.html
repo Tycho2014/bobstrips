@@ -2,12 +2,12 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>Onze stripgalerij</title>
+  <title>Bob de Schildpad</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>Stripgalerij</h1>
+    <h1>📚 Bob de Schildpad - Stripgalerij</h1>
   </header>
   <main>
     <div class="gallery" id="gallery"></div>
@@ -21,7 +21,7 @@
     function loadImages() {
       imageCount++;
       const img = new Image();
-      img.src = `${imageCount}.jpg`;
+      img.src = `${imageCount}.png`;
       img.onload = () => {
         images.push(img.src);
         const link = document.createElement("a");
@@ -35,7 +35,7 @@
       };
     }
 
-    setInterval(loadImages, 250);
+    setInterval(loadImages, 250); // elke 0.25 seconde
   </script>
 </body>
 </html>
