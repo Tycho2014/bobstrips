@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Strip Viewer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1 id="stripTitle">Strip</h1>
+  </header>
+  <main>
+    <div class="viewer">
+      <button class="nav-btn" onclick="prev()">←</button>
+      <img id="mainImage" src="" alt="Strip">
+      <button class="nav-btn" onclick="next()">→</button>
+    </div>
+    <div class="controls">
+      <button id="downloadBtn" onclick="downloadImage()">⬇ Download Strip</button>
+    </div>
+  </main>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    let index = parseInt(urlParams.get('index')) || 0;
+
+    function updateImage() {
+      const imgSrc = `${index + 1}.jpg`;
+      document.getElementById("mainImage").src = imgSrc;
+      document.getElementById("stripTitle").textContent = `Strip ${index + 1}`;
+    }
+
+    function next() {
+      index++;
+      updateImage();
+    }
+
+    function prev() {
+      if (index > 0) {
+        index--;
+        updateImage();
+      }
+    }
+
+    function downloadImage() {
+      const link = document.createElement('a');
+      link.href = `${index + 1}.jpg`;
+      link.download = `strip-${index + 1}.jpg`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") prev();
+    });
+
+    updateImage();
+  </script>
+</body>
+</html>
