@@ -2,25 +2,31 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>Strip´s</title>
+  <title>Onze stripgalerij</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Strippies van ons</h1>
-  <div class="gallery" id="gallery"></div>
+  <header>
+    <h1>Stripgalerij</h1>
+  </header>
+  <main>
+    <div class="gallery" id="gallery"></div>
+  </main>
 
   <script>
     const gallery = document.getElementById("gallery");
     let imageCount = 0;
+    const images = [];
 
     function loadImages() {
       imageCount++;
       const img = new Image();
-      img.src = `${imageCount}.png`;
+      img.src = `${imageCount}.jpg`;
       img.onload = () => {
+        images.push(img.src);
         const link = document.createElement("a");
-        link.href = img.src;
-        link.target = "_blank"; // opent in nieuw tabblad
+        link.href = `viewer.html?index=${images.length - 1}`;
+        link.target = "_blank";
         const thumb = document.createElement("img");
         thumb.src = img.src;
         thumb.className = "thumbnail";
@@ -29,7 +35,7 @@
       };
     }
 
-    setInterval(loadImages, 500);
+    setInterval(loadImages, 250);
   </script>
 </body>
 </html>
