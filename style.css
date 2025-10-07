@@ -1,13 +1,25 @@
 body {
-  font-family: sans-serif;
-  text-align: center;
   margin: 0;
-  padding: 20px;
-  background: #f9f9f9;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f4f8;
+  color: #333;
+}
+
+header {
+  background: #4CAF50;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 h1 {
-  margin-bottom: 20px;
+  margin: 0;
+  font-size: 2em;
+}
+
+main {
+  padding: 20px;
 }
 
 .gallery {
@@ -18,13 +30,66 @@ h1 {
 }
 
 .thumbnail {
-  width: 120px;
-  cursor: pointer;
+  width: 140px;
+  height: auto;
   border-radius: 10px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.3);
-  transition: transform 0.2s;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
 }
 
 .thumbnail:hover {
   transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+.viewer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.viewer img {
+  max-width: 90vw;
+  max-height: 80vh;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.nav-btn {
+  font-size: 28px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.nav-btn:hover {
+  background: #45a049;
+}
+
+.controls {
+  text-align: center;
+}
+
+#downloadBtn {
+  font-size: 18px;
+  background: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#downloadBtn:hover {
+  background: #1976D2;
 }
